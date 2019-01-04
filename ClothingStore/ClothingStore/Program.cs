@@ -48,38 +48,34 @@ namespace ClothingStore
                     // Vendor not found
                     Console.WriteLine("Invalid ID!");
                 }                
-            }
-            
+            }            
         }
 
         private static void ShowVendorInfo(Vendor vendor)
         {
-            if (vendor != null)
+            Console.WriteLine("---------------------------------------------");
+
+            // Balance info
+            Console.WriteLine($"Your current balance: ${vendor.Balance}");
+
+            // Clothing info
+            if (vendor.VendorClothings != null && vendor.VendorClothings.Any())
             {
-                Console.WriteLine("---------------------------------------------");
-
-                // Balance info
-                Console.WriteLine($"Your current balance: ${vendor.Balance}");
-
-                // Clothing info
-                if (vendor.VendorClothings != null && vendor.VendorClothings.Any())
+                Console.WriteLine("Your current clothing stock:");
+                foreach (VendorClothing vendorClothing in vendor.VendorClothings.Where(x => x.Clothing != null))
                 {
-                    Console.WriteLine("Your current clothing stock:");
-                    foreach (VendorClothing vendorClothing in vendor.VendorClothings.Where(x => x.Clothing != null))
-                    {
-                        Clothing clothing = vendorClothing.Clothing;
-                        Console.WriteLine($"#{clothing.Id} - {clothing.GetType().Name}" +
-                            $" {clothing.Color} {clothing.Size} - {vendorClothing.Quantity} items");
-                    }
+                    Clothing clothing = vendorClothing.Clothing;
+                    Console.WriteLine($"#{clothing.Id} - {clothing.GetType().Name}" +
+                        $" {clothing.Color} {clothing.Size} - {vendorClothing.Quantity} items");
                 }
-                else
-                {
-                    Console.WriteLine("You have no clothing in stock.");
-                }
-
-                Console.WriteLine("---------------------------------------------");
-                Console.WriteLine();
             }
+            else
+            {
+                Console.WriteLine("You have no clothing in stock.");
+            }
+
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine();
         }
 
         private static bool ExecuteOrder(int? actionId)

@@ -30,20 +30,17 @@ namespace ClothingStore
                     Console.WriteLine();
                     Console.WriteLine($"Hello {vendor.Name}!");
 
-                    // Show vendor info
-                    ShowVendorInfo(vendor);
-
                     while (shouldContinue)
                     {
+                        // Show vendor's latest info
+                        ShowVendorInfo(vendor);
+
                         // Ask the vendor what to do and execute
                         Console.WriteLine("What do you want to do next?");
                         Console.WriteLine("1: Buy");
                         Console.WriteLine("2: Sell");
                         Console.WriteLine("3: Exit");
                         shouldContinue = ExecuteOrder(ConsoleHelper.ReadInteger());
-
-                        // Show vendor's latest info
-                        ShowVendorInfo(vendor);
                     }
                 }
                 else

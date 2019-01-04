@@ -138,7 +138,7 @@ namespace ClothingStore
                 else
                 {
                     // Not existing => add new
-                    clothing.Id = vendor.VendorClothings.Max(x => x.Clothing.Id) + 1;
+                    clothing.Id = (vendor.VendorClothings.Max(x => x.Clothing?.Id) ?? 0) + 1;
                     vendor.VendorClothings.Add(new VendorClothing
                     {
                         Clothing = clothing,

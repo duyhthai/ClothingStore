@@ -121,51 +121,18 @@ namespace ClothingStore
             Console.WriteLine("Which clothing do you want to buy?");
             Console.WriteLine("1: T-Shirt: $6");
             Console.WriteLine("2: Dress Shirt: $8");
-            switch (ConsoleHelper.ReadInteger())
-            {
-                case 1:
-                    clothing = new TShirt();
-                    break;
-                case 2:
-                    clothing = new DressShirt();
-                    break;
-            }
+            clothing = SetClothingType();
 
             // Select clothing color
-            Console.WriteLine("Please select a color:");            
-            Console.WriteLine("1: Red");
-            Console.WriteLine("2: Blue");
-            switch (ConsoleHelper.ReadInteger())
-            {
-                case 1:
-                    clothing.Color = Color.Red;
-                    break;
-                case 2:
-                    clothing.Color = Color.Blue;
-                    break;
-            }
+            SetClothingColor(clothing);
 
             // Select clothing size
-            Console.WriteLine("Please select your size:");
-            Console.WriteLine("1: Medium");
-            Console.WriteLine("2: Large");
-            switch (ConsoleHelper.ReadInteger())
-            {
-                case 1:
-                    clothing.Size = Size.Medium;
-                    break;
-                case 2:
-                    clothing.Size = Size.Large;
-                    break;
-            }
+            SetClothingSize(clothing);
 
             if (vendor.Balance >= clothing.Price)
             {
                 // Save the clothing for current vendor
-                VendorClothing existingItem = vendor.VendorClothings.FirstOrDefault(x =>
-                    x.Clothing.GetType() == clothing.GetType()
-                    && x.Clothing.Color == clothing.Color
-                    && x.Clothing.Size == clothing.Size);
+                VendorClothing existingItem = _dataContext.GetVariantFromVendorClothings(vendor.VendorClothings, clothing);
                 if (existingItem != null)
                 {
                     // Already have item with same type, color, size => increase quantity
@@ -203,49 +170,16 @@ namespace ClothingStore
             Console.WriteLine("Which clothing do you want to sell?");
             Console.WriteLine("1: T-Shirt: $12");
             Console.WriteLine("2: Dress Shirt: $20");
-            switch (ConsoleHelper.ReadInteger())
-            {
-                case 1:
-                    clothing = new TShirt();
-                    break;
-                case 2:
-                    clothing = new DressShirt();
-                    break;
-            }
+            clothing = SetClothingType();
 
             // Select clothing color
-            Console.WriteLine("Please select a color:");
-            Console.WriteLine("1: Red");
-            Console.WriteLine("2: Blue");
-            switch (ConsoleHelper.ReadInteger())
-            {
-                case 1:
-                    clothing.Color = Color.Red;
-                    break;
-                case 2:
-                    clothing.Color = Color.Blue;
-                    break;
-            }
+            SetClothingColor(clothing);
 
             // Select clothing size
-            Console.WriteLine("Please select your size:");
-            Console.WriteLine("1: Medium");
-            Console.WriteLine("2: Large");
-            switch (ConsoleHelper.ReadInteger())
-            {
-                case 1:
-                    clothing.Size = Size.Medium;
-                    break;
-                case 2:
-                    clothing.Size = Size.Large;
-                    break;
-            }
+            SetClothingSize(clothing);
 
             // Check if the vendor has the item in stock
-            VendorClothing existingItem = vendor.VendorClothings.FirstOrDefault(x =>
-                x.Clothing.GetType() == clothing.GetType()
-                && x.Clothing.Color == clothing.Color
-                && x.Clothing.Size == clothing.Size);
+            VendorClothing existingItem = _dataContext.GetVariantFromVendorClothings(vendor.VendorClothings, clothing);
             if (existingItem != null)
             {
                 if (existingItem.Quantity > 1)
@@ -269,6 +203,51 @@ namespace ClothingStore
             {
                 // Not existing => cannot sell
                 Console.WriteLine("You don't have that item in stock to sell.");
+            }
+        }
+
+        private static Clothing SetClothingType()
+        {
+            switch (ConsoleHelper.ReadInteger())
+            {
+                case 1:
+                    return new TShirt();
+                case 2:
+                    return new DressShirt();
+                default:
+                    return null;
+            }
+        }
+
+        private static void SetClothingColor(Clothing clothing)
+        {
+            Console.WriteLine("Please select a color:");
+            Console.WriteLine("1: Red");
+            Console.WriteLine("2: Blue");
+            switch (ConsoleHelper.ReadInteger())
+            {
+                case 1:
+                    clothing.Color = Color.Red;
+                    break;
+                case 2:
+                    clothing.Color = Color.Blue;
+                    break;
+            }
+        }
+
+        private static void SetClothingSize(Clothing clothing)
+        {
+            Console.WriteLine("Please select your size:");
+            Console.WriteLine("1: Medium");
+            Console.WriteLine("2: Large");
+            switch (ConsoleHelper.ReadInteger())
+            {
+                case 1:
+                    clothing.Size = Size.Medium;
+                    break;
+                case 2:
+                    clothing.Size = Size.Large;
+                    break;
             }
         }
     }

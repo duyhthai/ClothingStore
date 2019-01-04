@@ -102,6 +102,16 @@ namespace ClothingStore.Data
             return vendor;
         }
 
+        public VendorClothing GetVariantFromVendorClothings(List<VendorClothing> vendorClothings, Clothing clothingVariant)
+        {
+            // Get by type, color, and size
+            VendorClothing vendorClothing = vendorClothings.FirstOrDefault(x =>
+                x.Clothing.GetType() == clothingVariant.GetType()
+                && x.Clothing.Color == clothingVariant.Color
+                && x.Clothing.Size == clothingVariant.Size);
+            return vendorClothing;
+        }
+
         public List<Vendor> Vendors { get; set; }
     }
 }
